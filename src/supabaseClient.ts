@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.config({ path: ".env" });
 if (!process.env.SUPABASE_URL || !process.env.SUPABASE_KEY) {
-	dotenv.config({ path: ".env.test" });
+  dotenv.config({ path: ".env.test" });
 }
 
 const supabaseUrl = process.env.SUPABASE_URL || "";

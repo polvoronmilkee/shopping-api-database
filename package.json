@@ -7,8 +7,7 @@
     "start": "node dist/server.js",
     "dev": "nodemon src/server.ts",
     "test:unit": "jest src/__tests__/*.test.ts",
-    "test:integration": "dotenv -e .env.test -- jest src/__tests__/*.integration.test.ts",
-    "test": "npm run test:unit && npm run test:integration"
+    "test:integration": "dotenv -e .env.test -- jest --testPathPatterns=src/__tests__/.*\\.integration\\.test\\.ts$"
   },
   "keywords": [],
   "author": "",

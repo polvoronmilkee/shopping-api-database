@@ -1,8 +1,7 @@
 import request from "supertest";
-import app from "../app";
+import app from "../../app";
 import { clearDatabase } from "./utils/db";
 import { describe, beforeEach, afterAll, it, expect } from "@jest/globals";
-
 
 describe("  Shopping Cart API (Supabase)", () => {
   beforeEach(async () => {});

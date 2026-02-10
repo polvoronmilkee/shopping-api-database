@@ -1,7 +1,7 @@
 import request from "supertest";
-import app from "../app"
+import app from "../../app";
 import { describe, it, expect, jest } from "@jest/globals";
-import supabase from "../src/supabaseClient";
+import supabase from "../supabaseClient";
 
 jest.mock("../src/supabaseClient", () => ({
   __esModule: true,
@@ -13,9 +13,13 @@ jest.mock("../src/supabaseClient", () => ({
 describe("Shopping Cart API (Supabase)", () => {
   it("should fetch all items", async () => {
     const mockData = [{ id: 1, name: "Laptop", price: 999 }];
+    type SupabaseResponse<T> = { data: T; error: { message: string } | null };
+    const selectMock = jest
+      .fn<() => Promise<SupabaseResponse<typeof mockData>>>()
+      .mockResolvedValue({ data: mockData, error: null });
 
     (supabase.from as jest.Mock).mockReturnValue({
-      select: jest.fn().mockResolvedValue({ data: mockData, error: null }),
+      select: selectMock,
     });
 
     const res = await request(app).get("/api/cart");
@@ -30,11 +34,15 @@ describe("Shopping Cart API (Supabase)", () => {
 it("should add a new item", async () => {
   const newItem = { name: "Buhok ni Ahron", price: 67 };
   const mockResponse = [{ id: 2, ...newItem }];
+  type SupabaseResponse<T> = { data: T; error: { message: string } | null };
+  const selectMock = jest
+    .fn<() => Promise<SupabaseResponse<typeof mockResponse>>>()
+    .mockResolvedValue({ data: mockResponse, error: null });
 
   // supabase.from().insert().select()
   (supabase.from as jest.Mock).mockReturnValue({
     insert: jest.fn().mockReturnThis(),
-    select: jest.fn().mockResolvedValue({ data: mockResponse, error: null }),
+    select: selectMock,
   });
 
   const res = await request(app).post("/api/cart").send(newItem);
@@ -46,11 +54,16 @@ it("should add a new item", async () => {
 // error handling
 
 it("should handle Supabase errors gracefully", async () => {
-  (supabase.from as jest.Mock).mockReturnValue({
-    select: jest.fn().mockResolvedValue({
+  type SupabaseResponse<T> = { data: T; error: { message: string } | null };
+  const selectMock = jest
+    .fn<() => Promise<SupabaseResponse<null>>>()
+    .mockResolvedValue({
       data: null,
       error: { message: "Database connection failed" },
-    }),
+    });
+
+  (supabase.from as jest.Mock).mockReturnValue({
+    select: selectMock,
   });
 
   const res = await request(app).get("/api/cart");
