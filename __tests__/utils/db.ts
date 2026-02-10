@@ -8,7 +8,7 @@ const supabaseKey = process.env.SUPABASE_KEY!
 
 export const testClient = createClient(supabaseUrl, supabaseKey);
 
-const clearSupabase = async () => {
+export const clearDatabase = async () => {
     const { error } = await testClient
         .from('cart_items')
         .delete()

@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node dist/server.js",
     "dev": "nodemon src/server.ts",
-    "test": "jest"
+    "test:unit": "jest src/__tests__/*.test.ts",
+    "test:integration": "dotenv -e .env.test -- jest src/__tests__/*.integration.test.ts",
+    "test": "npm run test:unit && npm run test:integration"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +25,7 @@
     "@types/dotenv": "^6.1.1",
     "@types/express": "^5.0.6",
     "@types/jest": "^30.0.0",
+    "@types/mocha": "^10.0.10",
     "@types/node": "^25.0.10",
     "@types/supertest": "^6.0.3",
     "dotenv-cli": "^11.0.0",

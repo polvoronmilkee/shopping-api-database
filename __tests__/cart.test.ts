@@ -1,6 +1,6 @@
 import request from "supertest";
-import app from "../app";
-
+import app from "../app"
+import { describe, it, expect, jest } from "@jest/globals";
 import supabase from "../src/supabaseClient";
 
 jest.mock("../src/supabaseClient", () => ({
