@@ -4,9 +4,16 @@ import dotenv from "dotenv";
 dotenv.config({ path: ".env.test" });
 
 const supabaseUrl = process.env.SUPABASE_URL!;
-const supabaseKey = process.env.SUPABASE_KEY!
+// const supabaseKey = process.env.SUPABASE_KEY!
+const serviceRoleKey = process.env.SERVICE_ROLE_KEY!;
 
-export const testClient = createClient(supabaseUrl, supabaseKey);
+export const testClient = createClient(supabaseUrl, serviceRoleKey, { 
+    global: {
+        headers: {
+            Authorization: `Bearer ${serviceRoleKey}`,
+        },
+    }
+});
 
 export const clearDatabase = async () => {
     const { error } = await testClient

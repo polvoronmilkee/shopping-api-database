@@ -3,7 +3,7 @@ import app from "../../app";
 import { describe, it, expect, jest } from "@jest/globals";
 import supabase from "../supabaseClient";
 
-jest.mock("../src/supabaseClient", () => ({
+jest.mock("../supabaseClient", () => ({
   __esModule: true,
   default: {
     from: jest.fn(),
